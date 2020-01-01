@@ -90,3 +90,43 @@ describe('Queue methods', () => {
     expect(Array.from(q)).toEqual([1, 2, 3]);
   });
 });
+
+describe('Deque methods', () => {
+  const Deque = ds.Deque;
+
+  test('construction', () => {
+    const q = new Deque();
+    expect(q).toBeInstanceOf(Deque);
+    expect(q).toHaveProperty('first');
+    expect(q).toHaveProperty('last');
+    expect(q.isEmpty()).toBe(true);
+  });
+
+  test('push/pop', () => {
+    const q = new Deque();
+    q.pushLeft('foo');
+    q.pushRight('bar');
+    q.pushLeft('baz');
+
+    expect(q.first.item).toBe('baz');
+    expect(q.last.item).toBe('bar');
+
+    const got = q.popLeft();
+    expect(got).toBe('baz');
+    expect(q.isEmpty()).toBe(false);
+
+    expect(q.popRight()).toBe('bar');
+
+    q.popLeft();
+    expect(q.isEmpty()).toBe(true);
+
+    // empty
+    expect(q.popLeft()).toBeNull();
+  });
+
+  test('iteration', () => {
+    const q = new Deque();
+    [1, 2, 3].forEach(n => q.pushLeft(n));
+    expect(Array.from(q)).toEqual([3, 2, 1]);
+  });
+});
