@@ -1,64 +1,82 @@
-const makeIterator = function (first) {
+type Cell<T> = {
+  item: T;
+  next: Cell<T> | null;
+};
+
+type DoubleCell<T> = {
+  item: T;
+  next: DoubleCell<T> | null;
+  prev: DoubleCell<T> | null;
+};
+
+const makeIterator = function<T>(first: Cell<T>): Iterator<T> {
   let cur = first;
 
   return {
-    next: function() {
-      if (cur === null) return { done: true };
+    next: function(): IteratorResult<T> {
+      if (cur === null) return { done: true, value: null };
 
       const ret = cur.item;
       cur = cur.next;
       return { value: ret };
-    }
+    },
   };
-}
+};
 
-const Stack = class {
-  constructor () {
+export class Stack<T> {
+  top: Cell<T>;
+  count: number;
+
+  constructor() {
     this.top = null;
     this.count = 0;
   }
 
-  isEmpty () {
+  isEmpty(): boolean {
     return this.top === null;
   }
 
-  push (item) {
+  push(item: T): void {
     const old = this.top;
     this.top = { item: item, next: null };
     this.top.next = old;
     this.count++;
   }
 
-  pop () {
-    if (this.isEmpty()) return null;
-
-    const item = this.top.item;
-    this.top = this.top.next;
-    this.count--;
-    return item;
-  }
-
-  peek () {
+  peek(): T {
     return this.top.item;
   }
 
-  [Symbol.iterator]() {
+  pop(): T {
+    if (this.isEmpty()) return null;
+
+    const ret = this.top;
+    this.top = ret.next;
+    this.count--;
+    return ret.item;
+  }
+
+  [Symbol.iterator](): Iterator<T> {
     return makeIterator.call(this, this.top);
   }
-};
+}
 
-const Queue = class {
-  constructor () {
+export class Queue<T> {
+  first: Cell<T> | null;
+  last: Cell<T> | null;
+  count: number;
+
+  constructor() {
     this.first = null;
     this.last = null;
     this.count = 0;
   }
 
-  isEmpty () {
+  isEmpty(): boolean {
     return this.first === null;
   }
 
-  enqueue (item) {
+  enqueue(item: T): void {
     const old = this.last;
     this.last = { item: item, next: null };
     if (this.isEmpty()) {
@@ -69,7 +87,7 @@ const Queue = class {
     this.count++;
   }
 
-  dequeue () {
+  dequeue(): T {
     if (this.isEmpty()) return null;
 
     const item = this.first.item;
@@ -81,50 +99,63 @@ const Queue = class {
     return item;
   }
 
-  [Symbol.iterator]() {
+  [Symbol.iterator](): Iterator<T> {
     return makeIterator.call(this, this.first);
   }
-};
+}
 
-const Bag = class extends Stack {
-  constructor () {
-    super();
+export class Bag<T> {
+  private stack;
+  constructor() {
+    this.stack = new Stack<T>();
   }
 
-  // hack: remove some superclass methods
-  get push () { return undefined };
-  get pop  () { return undefined };
-
-  add (item) {
-    super.push(item)
+  get top(): Cell<T> {
+    return this.stack.top;
   }
-};
+
+  add(item): void {
+    this.stack.push(item);
+  }
+
+  isEmpty(): boolean {
+    return this.stack.isEmpty();
+  }
+
+  [Symbol.iterator](): Iterator<T> {
+    return this.stack[Symbol.iterator]();
+  }
+}
 
 // doubly linked list
-const Deque = class {
-  constructor () {
+export class Deque<T> {
+  first: DoubleCell<T> | null;
+  last: DoubleCell<T> | null;
+  count: number;
+
+  constructor() {
     this.first = null;
     this.last = null;
     this.count = 0;
   }
 
-  isEmpty() {
+  isEmpty(): boolean {
     return this.first === null;
   }
 
-  pushLeft (item) {
+  pushLeft(item): void {
     const old = this.first;
     this.first = { item: item, next: old, prev: null };
 
     if (old) {
       old.prev = this.first;
     } else {
-      this.last = this.first
+      this.last = this.first;
     }
     this.count++;
   }
 
-  pushRight (item) {
+  pushRight(item): void {
     const old = this.last;
     this.last = { item: item, next: null, prev: old };
 
@@ -136,7 +167,7 @@ const Deque = class {
     this.count++;
   }
 
-  popLeft () {
+  popLeft(): T {
     if (this.isEmpty()) return null;
 
     const item = this.first.item;
@@ -151,7 +182,7 @@ const Deque = class {
     return item;
   }
 
-  popRight() {
+  popRight(): T {
     if (this.isEmpty()) return null;
 
     const item = this.last.item;
@@ -166,12 +197,7 @@ const Deque = class {
     return item;
   }
 
-  [Symbol.iterator]() {
+  [Symbol.iterator](): Iterator<T> {
     return makeIterator.call(this, this.first);
   }
-};
-
-module.exports.Bag = Bag;
-module.exports.Stack = Stack;
-module.exports.Queue = Queue;
-module.exports.Deque = Deque;
+}
