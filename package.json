@@ -1,7 +1,8 @@
 {
   "license": "MIT",
   "scripts": {
-    "test": "mocha -r ts-node/register test/*.test.ts"
+    "test": "mocha -r ts-node/register test/*.test.ts test/**/*.test.ts",
+    "testall": "LONG_TESTS=1 mocha -r ts-node/register test/*.test.ts test/**/*.test.ts"
   },
   "dependencies": {
     "@types/node": "^13.9.0",

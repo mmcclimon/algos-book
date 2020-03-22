@@ -41,7 +41,7 @@ module.exports = {
     'no-else-return': 'warn',
     'no-floating-decimal': 'warn',
     'no-implied-eval': 'error',
-    'no-invalid-this': 'error',
+    'no-invalid-this': 'warn',
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {
