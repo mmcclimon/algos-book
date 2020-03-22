@@ -1,6 +1,10 @@
 import * as readline from 'readline';
 import * as fs from 'fs';
 
+// to re-export
+import { assert } from 'chai';
+import { suite, test } from 'mocha';
+
 // this is effectively just a wrapper around readline and fs
 export class FileReader {
   private rl;
@@ -36,3 +40,5 @@ export class FileReader {
     return this.readAll(parseInt);
   }
 }
+
+export { assert, suite, test };

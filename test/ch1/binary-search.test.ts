@@ -1,9 +1,7 @@
 /* eslint-disable no-invalid-this */
 
 import { Whitelist } from '../../src/ch1/binary-search';
-import { FileReader } from '../util';
-import { assert } from 'chai';
-import { suite, test } from 'mocha';
+import { FileReader, assert, suite, test } from '../util';
 
 suite('binary search', function() {
   test('tiny list', async function() {
