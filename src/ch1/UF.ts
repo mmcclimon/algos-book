@@ -1,5 +1,5 @@
 const UF = class {
-  constructor (n) {
+  constructor(n) {
     this.count = n;
     this.id = new Array(n);
     this.sz = new Array(n);
@@ -10,7 +10,7 @@ const UF = class {
     }
   }
 
-  union (p, q) {
+  union(p, q) {
     const i = this.find(p);
     const j = this.find(q);
 
@@ -27,7 +27,7 @@ const UF = class {
     this.count--;
   }
 
-  find (p) {
+  find(p) {
     while (p !== this.id[p]) {
       p = this.id[p];
     }
@@ -35,7 +35,7 @@ const UF = class {
     return p;
   }
 
-  connected (p, q) {
+  connected(p, q) {
     return this.find(p) === this.find(q);
   }
 };

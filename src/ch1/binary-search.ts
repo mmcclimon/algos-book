@@ -20,7 +20,7 @@ export class BinarySearch {
 
   // hilariously bad for large haystacks
   static filter(haystack: Array<number>, wl: Array<number>): Array<number> {
-    return haystack.filter(key => this.indexOf(wl, key) === -1);
+    return haystack.filter((key) => this.indexOf(wl, key) === -1);
   }
 }
 

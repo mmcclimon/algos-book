@@ -29,7 +29,7 @@ suite('Stack methods', () => {
 
   test('iteration', () => {
     const s = new Stack<number>();
-    [1, 2, 3].forEach(n => s.push(n));
+    [1, 2, 3].forEach((n) => s.push(n));
     assert.deepEqual(Array.from(s), [3, 2, 1]);
   });
 });
@@ -44,7 +44,7 @@ suite('Bag methods', () => {
 
   test('add and iterate', () => {
     const b = new Bag<number>();
-    [1, 2, 3].forEach(n => b.add(n));
+    [1, 2, 3].forEach((n) => b.add(n));
     assert.sameMembers(Array.from(b), [1, 2, 3]);
   });
 });
@@ -79,7 +79,7 @@ suite('Queue methods', () => {
 
   test('iteration', () => {
     const q = new Queue();
-    [1, 2, 3].forEach(n => q.enqueue(n));
+    [1, 2, 3].forEach((n) => q.enqueue(n));
     assert.deepEqual(Array.from(q), [1, 2, 3]);
   });
 });
@@ -117,7 +117,7 @@ suite('Deque methods', () => {
 
   test('iteration', () => {
     const q = new Deque();
-    [1, 2, 3].forEach(n => q.pushLeft(n));
+    [1, 2, 3].forEach((n) => q.pushLeft(n));
     assert.deepEqual(Array.from(q), [3, 2, 1]);
   });
 });

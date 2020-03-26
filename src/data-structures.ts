@@ -9,11 +9,11 @@ type DoubleCell<T> = {
   prev: DoubleCell<T> | null;
 };
 
-const makeIterator = function<T>(first: Cell<T>): Iterator<T> {
+const makeIterator = function <T>(first: Cell<T>): Iterator<T> {
   let cur = first;
 
   return {
-    next: function(): IteratorResult<T> {
+    next: function (): IteratorResult<T> {
       if (cur === null) return { done: true, value: null };
 
       const ret = cur.item;

@@ -3,8 +3,8 @@
 import { Whitelist } from '../../src/ch1/binary-search';
 import { FileReader, assert, suite, test } from '../util';
 
-suite('binary search', function() {
-  test('tiny list', async function() {
+suite('binary search', function () {
+  test('tiny list', async function () {
     const wlFile = new FileReader('test/corpus/tinyW.txt');
     const wl = new Whitelist(await wlFile.readAllInts());
 
@@ -19,7 +19,7 @@ suite('binary search', function() {
     assert.sameMembers(got, [50, 99, 13]);
   });
 
-  test('big list', async function() {
+  test('big list', async function () {
     if (!process.env.LONG_TESTS) {
       this.skip();
       return;

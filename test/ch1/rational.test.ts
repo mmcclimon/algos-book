@@ -1,8 +1,8 @@
 import { Rational } from '../../src/ch1/rational';
 import { assert, suite, test } from '../util';
 
-suite('Rational', function() {
-  test('construction', function() {
+suite('Rational', function () {
+  test('construction', function () {
     const r = new Rational(2, 3);
     assert.instanceOf(r, Rational);
     assert.strictEqual(r.numerator, 2);
@@ -39,7 +39,7 @@ suite('Rational', function() {
     assert.throws(() => new Rational(1, 0.1), /non-integer values/);
   });
 
-  test('equality', function() {
+  test('equality', function () {
     const a = new Rational(2, 3);
     const b = new Rational(2, 3);
     const c = new Rational(4, 6);
@@ -58,7 +58,7 @@ suite('Rational', function() {
     assert.strictEqual(String(two), '2');
   });
 
-  test('addition', function() {
+  test('addition', function () {
     const a = new Rational(1, 10);
     const b = new Rational(2, 10);
 
@@ -79,7 +79,7 @@ suite('Rational', function() {
     assert.notEqual(a.plus(b).toNumber(), 0.1 + 0.2);
   });
 
-  test('multiplication', function() {
+  test('multiplication', function () {
     const a = new Rational(2, 10);
     const b = new Rational(3, 10);
 
@@ -93,7 +93,7 @@ suite('Rational', function() {
     assert.strictEqual(b.times(-2).toString(), '-3/5');
   });
 
-  test('subtraction', function() {
+  test('subtraction', function () {
     const a = new Rational(1, 10);
     const b = new Rational(2, 10);
 
@@ -110,7 +110,7 @@ suite('Rational', function() {
     assert.strictEqual(d.minus(c).toString(), '-5/12');
   });
 
-  test('division', function() {
+  test('division', function () {
     const a = new Rational(1, 2);
     const b = new Rational(3, 4);
 
