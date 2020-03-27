@@ -6,24 +6,33 @@ interface ExplicitComparable {
 
 export type Comparable = ExplicitComparable | number;
 
-export function lessThan(v: Comparable, w: Comparable): boolean {
-  if (typeof v === 'number') {
-    return v < w;
-  }
+export function pairIsOrdered(v: Comparable, w: Comparable): boolean {
+  if (typeof v === 'number') return v < w;
 
   return v.compareTo(w) < 0;
 }
 
-export function exchange(arr: Array<Comparable>, i: number, j: number): void {
-  const tmp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = tmp;
-}
-
-export function isSorted(arr: Array<Comparable>): boolean {
-  for (let i = 1; i < arr.length; i++) {
-    if (lessThan(arr[i], arr[i - 1])) return false;
+export class SortingArray<T extends Comparable> extends Array<T> {
+  static fillTo(n): SortingArray<number> {
+    return SortingArray.from(Array(n).keys()) as SortingArray<number>;
   }
 
-  return true;
+  exchange(i: number, j: number): void {
+    [this[i], this[j]] = [this[j], this[i]];
+  }
+
+  shuffle(): void {
+    for (let i = this.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      this.exchange(i, j);
+    }
+  }
+
+  isSorted(): boolean {
+    for (let i = 1; i < this.length; i++) {
+      if (pairIsOrdered(this[i], this[i - 1])) return false;
+    }
+
+    return true;
+  }
 }
