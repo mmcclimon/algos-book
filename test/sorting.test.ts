@@ -1,17 +1,23 @@
 import './array-magic';
-import { selectionSort } from '../src/sorting';
+import { selectionSort, insertionSort, SortFunction } from '../src/sorting';
 import { assert, suite, test } from './util';
 
-suite('selection sort', () => {
-  [10, 25, 50, 100].forEach((n) => {
-    test(`for ${n} elements`, () => {
-      const a = Array.fillTo(n);
-      a.shuffle();
+const testWith = (sort: SortFunction): (() => void) => {
+  return function (): void {
+    [10, 25, 50, 100, 500, 1000].forEach((n) => {
+      test(`for ${n} elements`, () => {
+        const a = Array.fillTo(n);
+        a.shuffle();
 
-      assert.isFalse(a.isSorted());
+        assert.isFalse(a.isSorted());
 
-      selectionSort(a);
-      assert.isTrue(a.isSorted());
+        sort(a);
+        assert.isTrue(a.isSorted());
+      });
     });
-  });
-});
+  };
+};
+
+suite('selection sort', testWith(selectionSort));
+
+suite('insertion sort', testWith(insertionSort));
