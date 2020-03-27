@@ -1,5 +1,5 @@
 import './array-magic';
-import { Selection } from '../src/sorting/selection';
+import { selectionSort } from '../src/sorting';
 import { assert, suite, test } from './util';
 
 suite('selection sort', () => {
@@ -8,10 +8,10 @@ suite('selection sort', () => {
       const a = Array.fillTo(n);
       a.shuffle();
 
-      assert.isFalse(Selection.isSorted(a));
+      assert.isFalse(a.isSorted());
 
-      Selection.sort(a);
-      assert.isTrue(Selection.isSorted(a));
+      selectionSort(a);
+      assert.isTrue(a.isSorted());
     });
   });
 });

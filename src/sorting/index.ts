@@ -1,35 +1,19 @@
-type CompareResult = -1 | 0 | 1;
+import * as util from './util';
 
-interface ExplicitComparable {
-  compareTo: (other: Comparable) => CompareResult;
-}
+type Comparable = util.Comparable;
 
-export type Comparable = ExplicitComparable | number;
+export function selectionSort(arr: Array<Comparable>): void {
+  const n = arr.length;
 
-export abstract class BaseSort {
-  protected static less(v: Comparable, w: Comparable): boolean {
-    if (typeof v === 'number') {
-      return v < w;
+  for (let i = 0; i < n; i++) {
+    let min = i;
+
+    for (let j = i + 1; j < n; j++) {
+      if (util.lessThan(arr[j], arr[min])) {
+        min = j;
+      }
     }
 
-    return v.compareTo(w) < 0;
-  }
-
-  protected static exchange(
-    arr: Array<Comparable>,
-    i: number,
-    j: number
-  ): void {
-    const tmp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = tmp;
-  }
-
-  static isSorted(arr: Array<Comparable>): boolean {
-    for (let i = 1; i < arr.length; i++) {
-      if (this.less(arr[i], arr[i - 1])) return false;
-    }
-
-    return true;
+    util.exchange(arr, i, min);
   }
 }
