@@ -10,10 +10,8 @@ const testWith = (sort: SortFunction): (() => void) => {
   return function (): void {
     [10, 25, 50, 100, 500, 1000].forEach((n) => {
       test(`for ${n} elements`, () => {
-        const a = SortingArray.fillTo(n);
-        a.shuffle();
-
-        assert.isFalse(a.isSorted());
+        const a = SortingArray.fillRandom(n);
+        assert.isFalse(a.isSorted()); // just in case...
 
         sort(a);
         assert.isTrue(a.isSorted());

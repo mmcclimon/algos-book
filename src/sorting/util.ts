@@ -17,6 +17,16 @@ export class SortingArray<T extends Comparable> extends Array<T> {
     return SortingArray.from(Array(n).keys()) as SortingArray<number>;
   }
 
+  // uniformly random ints between 0 and n
+  static fillRandom(n): SortingArray<number> {
+    const arr = new this<number>(n);
+    for (let i = 0; i < n; i++) {
+      arr[i] = Math.floor(Math.random() * Math.floor(n));
+    }
+
+    return arr;
+  }
+
   exchange(i: number, j: number): void {
     [this[i], this[j]] = [this[j], this[i]];
   }
