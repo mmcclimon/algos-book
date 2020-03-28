@@ -1,4 +1,4 @@
-import { assert, suite, test } from './util';
+import { assert, suite, test, timeThis } from './util';
 import {
   SortingArray,
   selectionSort,
@@ -7,14 +7,19 @@ import {
 } from '../src/sorting';
 
 const testWith = (sort: SortFunction): (() => void) => {
+  /* eslint-disable no-invalid-this */
   return function (): void {
-    [10, 25, 50, 100, 500, 1000].forEach((n) => {
-      test(`for ${n} elements`, () => {
+    [10, 25, 50, 100, 1000, 50000].forEach((n) => {
+      test(`for ${n} elements`, function () {
+        this.timeout(n);
+
         const a = SortingArray.fillRandom(n);
         assert.isFalse(a.isSorted()); // just in case...
 
-        sort(a);
+        const elapsed = timeThis(() => sort(a));
         assert.isTrue(a.isSorted());
+
+        this.test.title += ` (${elapsed} ms)`;
       });
     });
   };

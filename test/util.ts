@@ -1,5 +1,6 @@
 import * as readline from 'readline';
 import * as fs from 'fs';
+import { performance } from 'perf_hooks';
 
 // to re-export
 import { assert } from 'chai';
@@ -39,6 +40,17 @@ export class FileReader {
   async readAllInts(): Promise<Array<number>> {
     return this.readAll(parseInt);
   }
+}
+
+// used inside of mocha tests. Runs fn() in a performance block and returns a
+// string that's the time it took, in ms
+export function timeThis(fn: () => void): string {
+  const start = performance.now();
+
+  fn();
+
+  const elapsed = performance.now() - start;
+  return elapsed.toFixed(3);
 }
 
 export { assert, suite, test };
