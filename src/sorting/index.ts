@@ -30,3 +30,22 @@ export function insertionSort(arr: SortingArray<Comparable>): void {
     }
   }
 }
+
+export function shellSort(arr: SortingArray<Comparable>): void {
+  const n = arr.length;
+
+  let h = 1;
+  while (h < Math.floor(n / 3)) {
+    h = 3 * h + 1;
+  }
+
+  while (h >= 1) {
+    for (let i = h; i < n; i++) {
+      for (let j = i; j >= h && pairIsOrdered(arr[j], arr[j - h]); j -= h) {
+        arr.exchange(j, j - h);
+      }
+    }
+
+    h = Math.floor(h / 3);
+  }
+}
