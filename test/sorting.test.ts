@@ -5,6 +5,7 @@ import {
   selectionSort,
   insertionSort,
   shellSort,
+  mergeSort,
 } from '../src/sorting';
 
 const testWith = (sort: SortFunction): (() => void) => {
@@ -31,3 +32,5 @@ suite('selection sort', testWith(selectionSort));
 suite('insertion sort', testWith(insertionSort));
 
 suite('shell sort', testWith(shellSort));
+
+suite('merge sort', testWith(mergeSort));
