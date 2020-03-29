@@ -3,9 +3,11 @@ import { SortingArray, Comparable, pairIsOrdered } from './util';
 // re-export
 export { SortingArray };
 
+type SAC = SortingArray<Comparable>;
+
 export type SortFunction = (arr: SortingArray<Comparable>) => void;
 
-export function selectionSort(arr: SortingArray<Comparable>): void {
+export function selectionSort(arr: SAC): void {
   const n = arr.length;
 
   for (let i = 0; i < n; i++) {
@@ -22,7 +24,7 @@ export function selectionSort(arr: SortingArray<Comparable>): void {
 }
 
 export function insertionSort(
-  arr: SortingArray<Comparable>,
+  arr: SAC,
   lowIndex = 0,
   highIndex = arr.length - 1
 ): void {
@@ -33,7 +35,7 @@ export function insertionSort(
   }
 }
 
-export function shellSort(arr: SortingArray<Comparable>): void {
+export function shellSort(arr: SAC): void {
   const n = arr.length;
 
   const inc = [1];
@@ -54,7 +56,7 @@ export function shellSort(arr: SortingArray<Comparable>): void {
 // merge arr[low..mid] with arr[mid+1..high]
 // we pass aux here because .slice()ing the array every time is *super* slow.
 const merge = function (
-  arr: SortingArray<Comparable>,
+  arr: SAC,
   lowIndex: number,
   midIndex: number,
   highIndex: number,
@@ -87,7 +89,7 @@ const merge = function (
   }
 };
 
-export function mergeSort(arr: SortingArray<Comparable>): void {
+export function mergeSort(arr: SAC): void {
   const aux = new SortingArray<Comparable>(arr.length);
 
   const sort = function (a, lowIndex: number, highIndex: number): void {
@@ -107,7 +109,7 @@ export function mergeSort(arr: SortingArray<Comparable>): void {
   sort(arr, 0, arr.length - 1);
 }
 
-export function bottomUpMergeSort(arr: SortingArray<Comparable>): void {
+export function bottomUpMergeSort(arr: SAC): void {
   const aux = new SortingArray<Comparable>(arr.length);
   const n = arr.length;
 
@@ -122,4 +124,46 @@ export function bottomUpMergeSort(arr: SortingArray<Comparable>): void {
       );
     }
   }
+}
+
+export function quickSort(arr: SAC): void {
+  arr.shuffle(); // reduce dependence on input
+
+  const partition = (a: SAC, lowIndex: number, highIndex: number): number => {
+    const pivot = a[lowIndex];
+
+    let i = lowIndex;
+    let j = highIndex + 1;
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      while (pairIsOrdered(a[++i], pivot)) {
+        if (i === highIndex) break;
+      }
+
+      while (pairIsOrdered(pivot, a[--j])) {
+        // if (j === lowIndex) break;
+      }
+
+      if (i >= j) break;
+
+      a.exchange(i, j);
+    }
+
+    a.exchange(lowIndex, j);
+    return j;
+  };
+
+  const sort = (a: SAC, lowIndex: number, highIndex: number): void => {
+    if (highIndex <= lowIndex + 10) {
+      insertionSort(a, lowIndex, highIndex);
+      return;
+    }
+
+    const j = partition(a, lowIndex, highIndex);
+    sort(a, lowIndex, j - 1);
+    sort(a, j + 1, highIndex);
+  };
+
+  sort(arr, 0, arr.length - 1);
 }
