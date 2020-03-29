@@ -21,11 +21,13 @@ export function selectionSort(arr: SortingArray<Comparable>): void {
   }
 }
 
-export function insertionSort(arr: SortingArray<Comparable>): void {
-  const n = arr.length;
-
-  for (let i = 0; i < n; i++) {
-    for (let j = i; j > 0 && pairIsOrdered(arr[j], arr[j - 1]); j--) {
+export function insertionSort(
+  arr: SortingArray<Comparable>,
+  lowIndex = 0,
+  highIndex = arr.length - 1
+): void {
+  for (let i = lowIndex; i <= highIndex; i++) {
+    for (let j = i; j > lowIndex && pairIsOrdered(arr[j], arr[j - 1]); j--) {
       arr.exchange(j, j - 1);
     }
   }
@@ -90,6 +92,12 @@ export function mergeSort(arr: SortingArray<Comparable>): void {
 
   const sort = function (a, lowIndex: number, highIndex: number): void {
     if (highIndex <= lowIndex) return;
+
+    if (highIndex - lowIndex < 16) {
+      insertionSort(a, lowIndex, highIndex);
+      return;
+    }
+
     const midIndex = Math.floor(lowIndex + (highIndex - lowIndex) / 2);
     sort(a, lowIndex, midIndex);
     sort(a, midIndex + 1, highIndex);
@@ -97,4 +105,21 @@ export function mergeSort(arr: SortingArray<Comparable>): void {
   };
 
   sort(arr, 0, arr.length - 1);
+}
+
+export function bottomUpMergeSort(arr: SortingArray<Comparable>): void {
+  const aux = new SortingArray<Comparable>(arr.length);
+  const n = arr.length;
+
+  for (let len = 1; len < n; len *= 2) {
+    for (let lowIndex = 0; lowIndex < n - len; lowIndex += len * 2) {
+      merge(
+        arr,
+        lowIndex,
+        lowIndex + len - 1,
+        Math.min(lowIndex + len + len - 1, n - 1),
+        aux
+      );
+    }
+  }
 }
