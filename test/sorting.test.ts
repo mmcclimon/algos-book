@@ -1,12 +1,6 @@
 import { assert, suite, test, timeThis } from './util';
-import {
-  SortingArray,
-  SortFunction,
-  selectionSort,
-  insertionSort,
-  shellSort,
-  mergeSort,
-} from '../src/sorting';
+import { SortingArray, SortFunction } from '../src/sorting';
+import * as sorts from '../src/sorting';
 
 const testWith = (sort: SortFunction): (() => void) => {
   /* eslint-disable no-invalid-this */
@@ -27,10 +21,12 @@ const testWith = (sort: SortFunction): (() => void) => {
   };
 };
 
-suite('selection sort', testWith(selectionSort));
+suite('selection sort', testWith(sorts.selectionSort));
 
-suite('insertion sort', testWith(insertionSort));
+suite('insertion sort', testWith(sorts.insertionSort));
 
-suite('shell sort', testWith(shellSort));
+suite('shell sort', testWith(sorts.shellSort));
 
-suite('merge sort', testWith(mergeSort));
+suite('merge sort', testWith(sorts.mergeSort));
+
+suite('bottom-up merge sort', testWith(sorts.bottomUpMergeSort));
